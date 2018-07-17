@@ -5,11 +5,6 @@ $.getJSON("/articles", function(data) {
     // Display the apropos information on the page
     $("#articles").append(`<p class="test" data-id= ${data[i]._id} >${data[i].title} <br/>${data[i].link} </p>`);
   }
-//   $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "</p>");
-// }
-
-
-
 });
 
 // Whenever someone clicks a p tag
