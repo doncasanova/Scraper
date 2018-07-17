@@ -52,12 +52,18 @@ app.get("/scrape", function (req, res) {
   });
 });
 
+app.get("/", function (req, res){
+
+ res.render("index")
+
+})
+
 // Route for getting all Articles from the db
 app.get("/articles", function (req, res) {
-  db.Article.find().then(function (article) {
+  db.Article.find().then(function (articles) {
 
-    res.json(article);
-  
+    res.json(articles);
+  // res.render("index", {articles: JSON.stringify(articles)})
 
   });
 });
