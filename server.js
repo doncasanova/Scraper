@@ -6,7 +6,10 @@ var axios = require("axios");
 var cheerio = require("cheerio");
 
 var db = require("./models");
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
 
+mongoose.Promise = Promise;
+mongoose.connect(MONGODB_URI);
 var PORT = 3000;
 
 var app = express();
@@ -54,6 +57,7 @@ app.get("/articles", function (req, res) {
   db.Article.find().then(function (article) {
 
     res.json(article);
+  
 
   });
 });
@@ -83,6 +87,7 @@ app.post("/articles/:id", function (req, res) {
       res.json(err);
     });
 });
+
 
 // Start the server
 app.listen(PORT, function () {
