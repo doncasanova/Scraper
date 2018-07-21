@@ -7,12 +7,12 @@ $.getJSON("/articles", function(data) {
   for (var i = 0; i < data.length; i++) {
     const imageURL = data[i].image || "http://www.clipartbest.com/cliparts/nTB/K6B/nTBK6BkTA.jpeg" 
     // Display the apropos information on the page
-    $("#articles").append(`<p class="test" data-id= ${data[i]._id} >${data[i].title} <br/>${data[i].link} </p><img src=${imageURL} style="height:100px; width:100px;" ><br/><a target="_blank" href="http://first-avenue.com${data[i].link}"><button type="button" class="btn btn-warning m-2 eventButton">Go to Event</button></a>`);
+    $("#articles").append(`<p class="test" data-id= ${data[i]._id} >${data[i].title} <br/>${data[i].link} </p><img src=${imageURL} style="height:100px; width:100px;" ><br/><a target="_blank" href="http://first-avenue.com${data[i].link}"><button type="button" class="btn btn-sucsess m-2 eventButton">Go to Event</button></a><button type="button" class="btn btn-warning m-2 saveNoteButton">Add a note about event</button></a>`);
   }
 });
 
 // Whenever someone clicks a p tag
-$(document).on("click", "p", function() {
+$(document).on("click", ".saveNoteButton", function() {
   // Empty the notes from the note section
   $("#notes").empty();
   // Save the id from the p tag
