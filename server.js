@@ -10,6 +10,7 @@ var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines
 
 mongoose.Promise = Promise;
 mongoose.connect(MONGODB_URI);
+
 var PORT = 3000;
 
 var app = express();
@@ -22,48 +23,59 @@ var exphbs = require("express-handlebars");
 
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
-mongoose.connect("mongodb://localhost/scraper234");
+mongoose.connect("mongodb://localhost/scraperNew");
 
 // Routes
 
+app.get("/", function (req, res) {
+
+  res.render("index")
+
+})
+
 // A GET route for scraping the echoJS website
 app.get("/scrape", function (req, res) {
-  
+
   axios.get("http://first-avenue.com/calendar").then(function (response) {
     var $ = cheerio.load(response.data);
+    var results = []
+    $(".even a").each(function (i, element) {
 
-    $(".field a").each(function (i, element) {
-     
       var result = {};
       result.title = $(this)
         .text();
       result.link = $(this)
         .attr("href");
 
-      // Create a new Article using the `result` object built from scraping
-      db.Article.create(result)
-        .then(function (dbArticle) {
-        })
-        .catch(function (err) {
-          return res.json(err);
-        });
+      result.image = $(this)
+        .find("img").attr('src');
+
+      results.push(result)
+     
+
     });
-    res.send("Scrape Complete");
+    //how do we create many results
+
+    db.Article.insertMany(results)
+      .then(function (dbArticle) {
+        res.send("Scrape Complete");
+      })
+      .catch(function (err) {
+        return res.json(err);
+      });
+
+
+    console.log("your in the scrape route")
+
   });
 });
-
-app.get("/", function (req, res){
-
- res.render("index")
-
-})
 
 // Route for getting all Articles from the db
 app.get("/articles", function (req, res) {
   db.Article.find().then(function (articles) {
 
     res.json(articles);
-  // res.render("index", {articles: JSON.stringify(articles)})
+    // res.render("index", {articles: JSON.stringify(articles)})
 
   });
 });
