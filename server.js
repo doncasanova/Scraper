@@ -6,12 +6,12 @@ var axios = require("axios");
 var cheerio = require("cheerio");
 
 var db = require("./models");
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/scraperNew";
 
 mongoose.Promise = Promise;
 mongoose.connect(MONGODB_URI);
 
-var PORT = 3000;
+var PORT = process.env.PORT || 3000;
 
 var app = express();
 app.use(logger("dev"));
@@ -23,7 +23,7 @@ var exphbs = require("express-handlebars");
 
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
-mongoose.connect("mongodb://localhost/scraperNew");
+
 
 // Routes
 
