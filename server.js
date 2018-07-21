@@ -39,7 +39,7 @@ app.get("/scrape", function (req, res) {
   axios.get("http://first-avenue.com/calendar").then(function (response) {
     var $ = cheerio.load(response.data);
     var results = []
-    $(".even a").each(function (i, element) {
+    $(".field-item a").each(function (i, element) {
 
       var result = {};
       result.title = $(this)
